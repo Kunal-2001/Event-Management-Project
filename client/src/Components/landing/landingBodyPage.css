@@ -1,0 +1,87 @@
+.body-container {
+  margin-top: 150px;
+  display: flex;
+}
+
+.body-container-text {
+  background-color: #fff;
+  margin-left: 150px;
+  height: 100%;
+  max-width: 30vw;
+}
+.body-container-text h1 {
+  font-size: 6vh;
+  font-family: "poppins", sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.body-container-text p {
+  transform: scale(1, 1.5);
+  font-size: 30px;
+  font-family: "poppins", sans-serif;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+.lottie-animation {
+  margin-left: auto;
+  margin-top: -100px;
+  margin-right: 200px;
+}
+
+.subscribe-to-notify {
+  margin-top: 50px;
+  display: flex;
+}
+
+.input-notify {
+  padding: 20px 10px;
+  width: 70%;
+  font-size: 20px;
+  transition: all 0.5s ease-in-out;
+}
+
+.input-notify:focus {
+  border: black solid 2px;
+}
+
+.subscribe-to-notify button {
+  cursor: pointer;
+  background: #8e35de;
+  color: #fff;
+  border: none;
+  outline: none;
+  width: 30%;
+  padding: 20px 10px;
+  font-size: 15px;
+  text-transform: uppercase;
+  transition: all 0.2s ease-in-out;
+}
+
+.subscribe-to-notify button:hover {
+  opacity: 0.7;
+}
+
+.event-display-landing {
+  margin-top: 20px;
+  justify-content: center;
+  display: flex;
+}
+.events-display {
+  display: flex;
+  flex-direction: column;
+  margin-top: 200px;
+  align-items: center;
+}
+
+.events-display h1 {
+  font-family: "poppins", sans-serif;
+  color: black;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.events-display h1 span {
+  border-bottom: #8e35de 4px solid;
+}

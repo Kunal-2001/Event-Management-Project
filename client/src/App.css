@@ -1,0 +1,21 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+body {
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  height: 20px;
+  width: 0.4em;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 0.1em grey;
+}
+
+::-webkit-scrollbar-thumb {
+  background: gray;
+}
