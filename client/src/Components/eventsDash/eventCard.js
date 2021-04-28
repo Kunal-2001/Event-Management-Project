@@ -11,6 +11,8 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
+import Rating from "@material-ui/lab/Rating";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,15 +49,22 @@ const useStyles = makeStyles((theme) => ({
   top: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
+  },
+  mediaCard: {
+    width: "100%",
   },
   drawerImage: {
     display: "flex",
     marginTop: "20px",
     marginRight: "10px",
-    width: "50%",
+    width: "300px",
     height: "500px",
     borderRadius: "10px",
+  },
+  mediaQuery: {
+    display: "flex",
+    flexDirection: "column",
   },
   infoPanel: {
     width: "50%",
@@ -80,8 +89,8 @@ export default function EventCard(props) {
     >
       <div className={classes.top}>
         <div className={classes.infoPanel}>
-          <h2>ANT MAN</h2>
-          <p>Comedy | English</p>
+          <h2>{props.name.toUpperCase()}</h2>
+          <p>{props.genre} / English</p>
           {/* <Typography>
             <IconButton aria-label="add to favorites">
               <EventIcon />
@@ -130,10 +139,25 @@ export default function EventCard(props) {
             component="p"
             align="left"
           >
-            <span style={{ fontWeight: "600" }}>₹ 500</span> onwards
+            <span style={{ fontWeight: "600" }}>₹ {props.rate}</span> onwards
           </Typography>
         </div>
-        <CardMedia className={classes.drawerImage} image={props.image} />
+        <div className={classes.mediaQuery}>
+          <CardMedia className={classes.drawerImage} image={props.image} />
+          <Box
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              marginRight: "10px",
+              marginTop: "10px",
+            }}
+            component="fieldset"
+            mb={3}
+            borderColor="transparent"
+          >
+            <Rating name="read-only" value={props.rating} readOnly />
+          </Box>
+        </div>
       </div>
     </div>
   );

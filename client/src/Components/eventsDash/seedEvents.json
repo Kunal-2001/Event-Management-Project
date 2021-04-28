@@ -1,0 +1,44 @@
+{
+    "events" : [
+        {
+          "image":
+            "https://images.fandango.com/ImageRenderer/0/0/redesign/static/img/default_poster.png/0/images/masterrepository/other/ant_man_ver5.jpg",
+          "name": "Ant-Man",
+          "rate": "400",
+          "genre": "Movie / Action",
+          "rating": "4"
+        },
+        {
+          "image":
+            "https://www.washingtonpost.com/graphics/2019/entertainment/oscar-nominees-movie-poster-design/img/star-is-born-web.jpg",
+          "name": "A star is born",
+          "rate": "500",
+          "genre": "Movie / Romance",
+          "rating": "3"
+        },
+        {
+          "image":
+            "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F85843835%2F223049348999%2F1%2Foriginal.20191231-032051?h=2000&w=720&auto=format%2Ccompress&q=75&sharp=10&s=2411980f92c71fb481b2f94d9e34f9d5",
+          "name": "Laugh out loud",
+          "rate": "700",
+          "genre": "Comedy / Entertainment",
+          "rating": "2"
+        },
+        {
+          "image":
+            "https://cdn-az.allevents.in/events3/banners/fb1e8ddcb812d75b1c338448a45dcf0fc73c61ffb8ddcc984c241356be394dc8-rimg-w1200-h1553-gmir.jpg?v=1617403235",
+          "name": "Pop up comedy",
+          "rate": "400",
+          "genre": "Comedy",
+          "rating": "4"
+        },
+        {
+          "image":
+            "https://image.freepik.com/free-vector/magic-show-neon-sign_191108-48.jpg",
+          "name": "Magic Show",
+          "rate": "600",
+          "genre": "Magic / Entertainment",
+          "rating": "5"
+        }
+    ]
+}

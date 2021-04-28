@@ -73,7 +73,7 @@ const Profile = () => {
   //   };
   return (
     <div className="profile-body">
-      <div>
+      <div className="eventHeader">
         <EventHeader />
       </div>
       <div className="eventPageBody">

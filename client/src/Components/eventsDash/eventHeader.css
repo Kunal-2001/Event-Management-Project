@@ -1,6 +1,7 @@
 .header-container {
   position: sticky;
   padding: 30px 30px;
+  height: 100px;
   border-bottom: rgba(148, 135, 135, 0.74) 1px solid;
   box-shadow: 0px 6px 11px -5px rgba(148, 135, 135, 0.74);
   -webkit-box-shadow: 0px 6px 11px -5px rgba(148, 135, 135, 0.74);
