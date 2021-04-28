@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const dashboardName = process.env.MONGODB_DASHBOARD_NAME;
 mongoose
-  .connect(`mongodb://localhost/${dashboardName}`, {
+  .connect(`mongodb://localhost/eventDashboard`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,

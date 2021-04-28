@@ -8,3 +8,15 @@ body {
 .landingPageBody {
   margin-top: 10px;
 }
+
+.header-elements {
+  text-decoration: none;
+  margin-right: 20px;
+  color: black;
+  font-weight: 600;
+  transition: all ease-in-out 0.4s;
+  font-size: 15px;
+}
+.header-elements:hover {
+  font-size: 20px;
+}

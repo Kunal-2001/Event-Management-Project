@@ -1,0 +1,10 @@
+body {
+  background-color: #fff;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.eventPageBody {
+  padding: 100px;
+}
