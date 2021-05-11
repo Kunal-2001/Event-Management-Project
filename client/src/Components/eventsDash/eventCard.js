@@ -79,6 +79,11 @@ const useStyles = makeStyles((theme) => ({
 export default function EventCard(props) {
   const classes = useStyles();
   const [drawerState, setDrawerState] = useState(false);
+  const [favourite, setFavourite] = useState(false);
+  const favouriteColor = favourite ? "#ff4040" : "rgba(0, 0, 0, 0.54)";
+  const addToFavourites = () => {
+    setFavourite(!favourite);
+  };
 
   const list = (anchor) => (
     <div
@@ -155,7 +160,7 @@ export default function EventCard(props) {
             mb={3}
             borderColor="transparent"
           >
-            <Rating name="read-only" value={props.rating} readOnly />
+            <Rating name="read-only" value="2" readOnly />
           </Box>
         </div>
       </div>
@@ -173,7 +178,12 @@ export default function EventCard(props) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton
+          id={props.name.toUpperCase()}
+          style={{ color: favouriteColor }}
+          onClick={addToFavourites}
+          aria-label="add to favorites"
+        >
           <FavoriteIcon />
         </IconButton>
         <IconButton aria-label="share">

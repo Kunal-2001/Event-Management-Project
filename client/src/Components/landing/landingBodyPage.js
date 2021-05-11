@@ -47,7 +47,9 @@ export default function LandingBodyPage() {
           <h1>World's most loved event software</h1>
           <div className="subscribe-to-notify">
             <input className="input-notify" placeholder="Enter your email" />
-            <button>Get Notify</button>
+            <button data-testid="notify-button" className="notify-email-button">
+              Get Notify
+            </button>
           </div>
         </div>
         <div className="lottie-animation">
@@ -63,7 +65,9 @@ export default function LandingBodyPage() {
         <h1>
           Som<span>e Events Picked B</span>y Us
         </h1>
-        <div className="event-display-landing">{eventDisplay}</div>
+        <div data-testid="display-events" className="event-display-landing">
+          {eventDisplay}
+        </div>
       </div>
     </>
   );

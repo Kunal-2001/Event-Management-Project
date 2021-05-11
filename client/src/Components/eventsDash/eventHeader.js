@@ -5,6 +5,7 @@ import { State } from "./eventsContext";
 import Button from "@material-ui/core/Button";
 import "./eventHeader.css";
 import logo from "../../images/Logo2.png";
+import LogoutConfirm from "./logoutButtonConfirmDialog";
 export default function Header() {
   const { searchQuery, setSearchQuery } = useContext(State);
 
@@ -15,9 +16,9 @@ export default function Header() {
           <img
             src={logo}
             style={{
-              width: "250px",
-              marginTop: "-35px",
-              height: "100px",
+              width: "200px",
+              marginTop: "-25px",
+              height: "80px",
             }}
           />
         </li>
@@ -33,15 +34,21 @@ export default function Header() {
         </div>
         <div className="right">
           <li className="More-info">
+            <Link className="header-elements" to="/newEvent">
+              <Button variant="outlined" color="primary">
+                Create a new event
+              </Button>
+            </Link>
             <Link className="header-elements">
               <Button variant="outlined" color="primary">
                 Harry
               </Button>
             </Link>
-            <Link to="/login" className="header-elements">
-              <Button variant="outlined" color="primary">
+            <Link className="header-elements">
+              <LogoutConfirm />
+              {/* <Button variant="outlined" color="primary">
                 Logout
-              </Button>
+              </Button> */}
             </Link>
           </li>
         </div>

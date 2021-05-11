@@ -5,9 +5,9 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  attendence: {
-    type: Number,
-    default: null,
+  genre: {
+    type: String,
+    required: true,
   },
   description: {
     type: String,
@@ -17,9 +17,19 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  cost: {
+    type: Number,
+    required: true,
+  },
+  isOnlineEvent: {
+    type: Boolean,
+    default: false,
+  },
+  imageLink: {
+    type: String,
+  },
   venue: {
     type: String,
-    required: true,
   },
   city: {
     type: String,
@@ -29,13 +39,9 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  startDate: {
-    type: String,
-    required: true,
-  },
-  endDate: {
-    type: String,
-    required: true,
+  likes: {
+    type: Number,
+    default: 0,
   },
 });
 

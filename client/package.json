@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@date-io/date-fns": "^1.3.13",
+    "@date-io/moment": "^1.3.13",
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
+    "@material-ui/pickers": "^3.2.10",
+    "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/user-event": "^12.1.10",
     "aos": "^3.0.0-beta.6",
     "axios": "^0.21.1",
@@ -44,5 +46,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@testing-library/react": "^11.2.6",
+    "jest-canvas-mock": "^2.3.1",
+    "react-test-renderer": "^17.0.2"
   }
 }

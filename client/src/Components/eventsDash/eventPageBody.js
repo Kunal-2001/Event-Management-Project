@@ -3,7 +3,8 @@ import EventCard from "./eventCard";
 import "./eventPageBody.css";
 import eventsData from "./seedEvents.json";
 import { State } from "./eventsContext";
-export default function EventPageBody() {
+import axios from "axios";
+export default function EventPageBody({ events }) {
   // const { searchQuery, setSearchQuery } = useContext(State);
   // const [data, setData] = useState("");
   // useEffect(() => {
@@ -16,16 +17,14 @@ export default function EventPageBody() {
   //   setData(filtered);
   // }, [searchQuery]);
   // console.log(searchQuery);
-
-  let Events = eventsData.events.map((e) => (
+  let allEvents = events.map((e) => (
     <EventCard
-      image={e.image}
+      image={e.imageLink}
+      desc={e.description}
       name={e.name}
-      rate={e.rate}
+      rate={e.cost}
       genre={e.genre}
-      rating={e.rating}
     />
   ));
-
-  return <div className="eventCards">{Events}</div>;
+  return <div className="eventCards">{allEvents}</div>;
 }

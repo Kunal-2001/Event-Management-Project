@@ -159,27 +159,31 @@ router.post("/login", async (req, res) => {
 router.post("/newevent", async (req, res, next) => {
   let {
     name,
-    attendence,
+    genre,
     description,
     organizer,
+    cost,
+    isOnlineEvent,
+    imageLink,
     venue,
     city,
     link,
-    startDate,
-    endDate,
+    likes,
   } = req.body;
   // console.log(req.body);
   // let status = true;
   let status = await saveEvent(
     name,
-    attendence,
+    genre,
     description,
     organizer,
+    cost,
+    isOnlineEvent,
+    imageLink,
     venue,
     city,
     link,
-    startDate,
-    endDate
+    likes
   );
   res.json(status);
 });

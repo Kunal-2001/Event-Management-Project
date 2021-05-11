@@ -46,7 +46,7 @@
   border: black solid 2px;
 }
 
-.subscribe-to-notify button {
+.notify-email-button {
   cursor: pointer;
   background: #8e35de;
   color: #fff;

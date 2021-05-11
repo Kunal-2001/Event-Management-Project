@@ -3,26 +3,30 @@ var event = require("../models/event");
 
 const saveEvent = (
   name,
-  attendence,
+  genre,
   description,
   organizer,
+  cost,
+  isOnlineEvent,
+  imageLink,
   venue,
   city,
   link,
-  startDate,
-  endDate
+  likes
 ) => {
   try {
     let newEvent = new event({
       name,
-      attendence,
+      genre,
       description,
       organizer,
+      cost,
+      isOnlineEvent,
+      imageLink,
       venue,
       city,
       link,
-      startDate,
-      endDate,
+      likes,
     });
     newEvent.save().catch((err) => console.log(err));
     return true;

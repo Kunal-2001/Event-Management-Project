@@ -17,6 +17,6 @@ body {
   transition: all ease-in-out 0.4s;
   font-size: 15px;
 }
-.header-elements:hover {
+/* .header-elements:hover {
   font-size: 20px;
-}
+} */
