@@ -8,26 +8,26 @@ import {
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import DateFnsUtils from "@date-io/date-fns";
-const useStyles = makeStyles((theme) => ({
-  listItem: {
-    padding: theme.spacing(1, 0),
-  },
-  total: {
-    fontWeight: 700,
-  },
-  title: {
-    marginTop: theme.spacing(2),
-  },
-}));
 
-export default function DateAndTime({
-  startDate,
-  setStartDate,
-  endDate,
-  setEndDate,
-}) {
-  const classes = useStyles();
-
+export default function DateAndTime({ eventData, setEventData }) {
+  const is_date_time_equal =
+    eventData.endDate.valueOf() === eventData.startDate.valueOf();
+  const handleStartDateChange = (e) => {
+    setEventData((prevState) => {
+      return {
+        ...prevState,
+        startDate: e,
+      };
+    });
+  };
+  const handleEndDateChange = (e) => {
+    setEventData((prevState) => {
+      return {
+        ...prevState,
+        endDate: e,
+      };
+    });
+  };
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -42,16 +42,14 @@ export default function DateAndTime({
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDateTimePicker
               variant="inline"
-              value={startDate}
-              onChange={setStartDate}
+              name="startDate"
+              value={eventData.startDate}
+              onChange={handleStartDateChange}
               minDate={new Date()}
-              maxDate={endDate}
+              maxDate={!is_date_time_equal && eventData.endDate}
+              // maxDate={eventData.endDate}
               onError={console.log}
               autoOk={false}
-              //   maxDate={eventDate}
-              //   maxDateMessage={`Set a date before an event`}
-              //   minDate={new Date()}
-              //   minDateMessage={`Set a date after the current date`}
               format="yyyy/MM/dd HH:mm"
             />
           </MuiPickersUtilsProvider>
@@ -63,15 +61,12 @@ export default function DateAndTime({
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDateTimePicker
               variant="inline"
-              value={endDate}
-              minDate={startDate}
-              onChange={setEndDate}
+              name="endDate"
+              value={eventData.endDate}
+              minDate={eventData.startDate}
+              onChange={handleEndDateChange}
               onError={console.log}
               autoOk={false}
-              //   maxDate={eventDate}
-              //   maxDateMessage={`Set a date before an event`}
-              //   minDate={new Date()}
-              //   minDateMessage={`Set a date after the current date`}
               format="yyyy/MM/dd HH:mm"
             />
           </MuiPickersUtilsProvider>

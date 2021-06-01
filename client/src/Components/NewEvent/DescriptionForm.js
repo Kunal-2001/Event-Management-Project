@@ -2,7 +2,16 @@ import React from "react";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-export default function DescriptionForm() {
+export default function DescriptionForm({ eventData, setEventData }) {
+  const handleChange = (e) => {
+    let value = e.target.value;
+    setEventData((prevState) => {
+      return {
+        ...prevState,
+        eventDescription: value,
+      };
+    });
+  };
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
@@ -17,6 +26,8 @@ export default function DescriptionForm() {
             aria-label="maximum height"
             placeholder="Attract Audience with catchy description"
             defaultValue=""
+            value={eventData.eventDescription}
+            onChange={handleChange}
           />
         </Grid>
       </Grid>

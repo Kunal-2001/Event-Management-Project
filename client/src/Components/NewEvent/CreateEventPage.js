@@ -7,8 +7,8 @@ import StepLabel from "@material-ui/core/StepLabel";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import AddressForm from "./EventDetails";
-import PaymentForm from "./DescriptionForm";
 import DateAndTime from "./DateAndTime";
+import DescriptionForm from "./DescriptionForm";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -50,30 +50,38 @@ const useStyles = makeStyles((theme) => ({
 export default function CreateEventPage() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [isOnline, setIsOnline] = useState(false);
-  const [eventName, setEventName] = useState("");
-  const [genre, setGenre] = useState("");
-  const [thumbnailImage, setThumbnailImage] = useState("");
-  const [websiteLink, setWebsiteLink] = useState("");
+  // const [startDate, setStartDate] = useState(new Date());
+  // const [endDate, setEndDate] = useState(new Date());
+  const [eventData, setEventData] = useState({
+    isOnline: false,
+    eventName: "",
+    genre: "",
+    thumbnailImage: "",
+    websiteLink: "",
+    city: "",
+    venue: "",
+    cost: "",
+    organizer: "",
+    eventDescription: "",
+    startDate: new Date(),
+    endDate: new Date(),
+  });
 
   const steps = ["Fill Form", "Add description", "Choose a date"];
 
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <AddressForm />;
+        return (
+          <AddressForm eventData={eventData} setEventData={setEventData} />
+        );
       case 1:
-        return <PaymentForm />;
+        return (
+          <DescriptionForm eventData={eventData} setEventData={setEventData} />
+        );
       case 2:
         return (
-          <DateAndTime
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-          />
+          <DateAndTime eventData={eventData} setEventData={setEventData} />
         );
       default:
         throw new Error("Unknown step");
@@ -87,8 +95,6 @@ export default function CreateEventPage() {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
-
-  const handleFormSubmit = () => {};
 
   return (
     <React.Fragment>
