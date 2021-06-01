@@ -30,10 +30,11 @@ const eventSchema = new mongoose.Schema({
   },
   venue: {
     type: String,
+    default: undefined,
   },
   city: {
     type: String,
-    required: true,
+    default: undefined,
   },
   link: {
     type: String,
@@ -42,6 +43,12 @@ const eventSchema = new mongoose.Schema({
   likes: {
     type: Number,
     default: 0,
+  },
+  eventStartDate: {
+    type: Date,
+  },
+  eventEndDate: {
+    type: Date,
   },
 });
 

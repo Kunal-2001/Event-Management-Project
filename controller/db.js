@@ -12,7 +12,9 @@ const saveEvent = (
   venue,
   city,
   link,
-  likes
+  likes,
+  eventStartDate,
+  eventEndDate
 ) => {
   try {
     let newEvent = new event({
@@ -27,6 +29,8 @@ const saveEvent = (
       city,
       link,
       likes,
+      eventStartDate,
+      eventEndDate,
     });
     newEvent.save().catch((err) => console.log(err));
     return true;

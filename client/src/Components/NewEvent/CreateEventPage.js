@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Stepper from "@material-ui/core/Stepper";
@@ -8,7 +8,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import AddressForm from "./EventDetails";
 import PaymentForm from "./DescriptionForm";
-import Review from "./DateAndTime";
+import DateAndTime from "./DateAndTime";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -47,24 +47,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const steps = ["Fill Form", "Add description", "Choose a date"];
-
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <AddressForm />;
-    case 1:
-      return <PaymentForm />;
-    case 2:
-      return <Review />;
-    default:
-      throw new Error("Unknown step");
-  }
-}
-
 export default function CreateEventPage() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [isOnline, setIsOnline] = useState(false);
+  const [eventName, setEventName] = useState("");
+  const [genre, setGenre] = useState("");
+  const [thumbnailImage, setThumbnailImage] = useState("");
+  const [websiteLink, setWebsiteLink] = useState("");
+
+  const steps = ["Fill Form", "Add description", "Choose a date"];
+
+  function getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <AddressForm />;
+      case 1:
+        return <PaymentForm />;
+      case 2:
+        return (
+          <DateAndTime
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+          />
+        );
+      default:
+        throw new Error("Unknown step");
+    }
+  }
 
   const handleNext = () => {
     setActiveStep(activeStep + 1);
@@ -73,6 +87,8 @@ export default function CreateEventPage() {
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
+
+  const handleFormSubmit = () => {};
 
   return (
     <React.Fragment>
@@ -89,18 +105,6 @@ export default function CreateEventPage() {
             ))}
           </Stepper>
           <React.Fragment>
-            {/* {activeStep === steps.length ? (
-              <React.Fragment>
-                <Typography variant="h5" gutterBottom>
-                  Thank you for your order.
-                </Typography>
-                <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order
-                  confirmation, and will send you an update when your order has
-                  shipped.
-                </Typography>
-              </React.Fragment>
-            ) : ( */}
             <React.Fragment>
               {getStepContent(activeStep)}
               <div className={classes.buttons}>

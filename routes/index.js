@@ -169,6 +169,8 @@ router.post("/newevent", async (req, res, next) => {
     city,
     link,
     likes,
+    eventStartDate,
+    eventEndDate,
   } = req.body;
   // console.log(req.body);
   // let status = true;
@@ -183,7 +185,9 @@ router.post("/newevent", async (req, res, next) => {
     venue,
     city,
     link,
-    likes
+    likes,
+    eventStartDate,
+    eventEndDate
   );
   res.json(status);
 });

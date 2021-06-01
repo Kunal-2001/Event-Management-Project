@@ -20,9 +20,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DateAndTime() {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+export default function DateAndTime({
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
+}) {
   const classes = useStyles();
 
   return (

@@ -6,7 +6,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
 export default function AddressForm() {
-  const [isOnline, setIsOnline] = useState(false);
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
