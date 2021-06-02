@@ -12,24 +12,24 @@ function Login(props) {
   const [loginPassword, setLoginPassword] = useState("");
   // const { userData, setUserData, setIsAuth } = useContext(State);
   let wrongMessageDisplay = "";
-  //   const notifySuccess = () =>
-  //     toast.success("Login Successful!", {
-  //       position: "top-center",
-  //       autoClose: 5000,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //     });
-  //   const notifyFailure = () =>
-  //     toast.error(`${wrongMessageDisplay}`, {
-  //       position: "top-center",
-  //       autoClose: 5000,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //     });
+  const notifySuccess = () =>
+    toast.success("Login Successful!", {
+      position: "top-center",
+      autoClose: 5000,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  const notifyFailure = () =>
+    toast.error(`${wrongMessageDisplay}`, {
+      position: "top-center",
+      autoClose: 5000,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
 
   const loginUser = async (e) => {
     e.preventDefault();
@@ -43,26 +43,20 @@ function Login(props) {
     }).then((res) => {
       if (res.data.status) {
         const token = res.data.token;
-        // setUserData({
-        //   token,
-        //   user: res.data.user,
-        // });
-        // setIsAuth(true);
         localStorage.setItem("auth-token", token);
         localStorage.setItem("data", JSON.stringify(res.data.user));
+        notifySuccess();
         history.push("/events");
-        // notifySuccess();
       } else {
         wrongMessageDisplay = res.data.msg;
-        history.push("/");
-        // notifyFailure();
+        notifyFailure();
       }
     });
   };
 
   return (
     <div>
-      {/* <ToastContainer
+      <ToastContainer
         position="top-right"
         autoClose={5000}
         newestOnTop={false}
@@ -70,7 +64,7 @@ function Login(props) {
         rtl={false}
         pauseOnFocusLoss
         pauseOnHover
-      /> */}
+      />
       <div className="authForm">
         <h1>Login</h1>
         <form onSubmit={loginUser}>

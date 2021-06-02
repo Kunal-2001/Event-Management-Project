@@ -2,35 +2,35 @@ var user = require("../models/user");
 var event = require("../models/event");
 
 const saveEvent = (
-  name,
+  eventName,
   genre,
-  description,
+  eventDescription,
   organizer,
   cost,
-  isOnlineEvent,
-  imageLink,
+  isOnline,
+  thumbnailImage,
   venue,
   city,
-  link,
+  websiteLink,
   likes,
-  eventStartDate,
-  eventEndDate
+  startDate,
+  endDate
 ) => {
   try {
     let newEvent = new event({
-      name,
+      eventName,
       genre,
-      description,
+      eventDescription,
       organizer,
       cost,
-      isOnlineEvent,
-      imageLink,
+      isOnline,
+      thumbnailImage,
       venue,
       city,
-      link,
+      websiteLink,
       likes,
-      eventStartDate,
-      eventEndDate,
+      startDate,
+      endDate,
     });
     newEvent.save().catch((err) => console.log(err));
     return true;

@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 
 const eventSchema = new mongoose.Schema({
-  name: {
+  eventName: {
     type: String,
     required: true,
   },
@@ -9,7 +9,7 @@ const eventSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  description: {
+  eventDescription: {
     type: String,
     required: true,
   },
@@ -21,11 +21,11 @@ const eventSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  isOnlineEvent: {
+  isOnline: {
     type: Boolean,
     default: false,
   },
-  imageLink: {
+  thumbnailImage: {
     type: String,
   },
   venue: {
@@ -36,7 +36,7 @@ const eventSchema = new mongoose.Schema({
     type: String,
     default: undefined,
   },
-  link: {
+  websiteLink: {
     type: String,
     required: true,
   },
@@ -44,10 +44,10 @@ const eventSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-  eventStartDate: {
+  startDate: {
     type: Date,
   },
-  eventEndDate: {
+  endDate: {
     type: Date,
   },
 });

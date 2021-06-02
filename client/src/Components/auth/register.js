@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link, useHistory } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "./auth.css"
+import "./auth.css";
 // import { State } from "./Context";
 
 function Login(props) {
@@ -11,27 +11,27 @@ function Login(props) {
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [username , setUsername] = useState("")
+  const [username, setUsername] = useState("");
   // const { userData, setUserData, setIsAuth } = useContext(State);
   let wrongMessageDisplay = "";
-//   const notifySuccess = () =>
-//     toast.success("Login Successful!", {
-//       position: "top-center",
-//       autoClose: 5000,
-//       closeOnClick: true,
-//       pauseOnHover: true,
-//       draggable: true,
-//       progress: undefined,
-//     });
-//   const notifyFailure = () =>
-//     toast.error(`${wrongMessageDisplay}`, {
-//       position: "top-center",
-//       autoClose: 5000,
-//       closeOnClick: true,
-//       pauseOnHover: true,
-//       draggable: true,
-//       progress: undefined,
-//     });
+  const notifySuccess = () =>
+    toast.success("User registered", {
+      position: "top-center",
+      autoClose: 5000,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
+  const notifyFailure = () =>
+    toast.error(`${wrongMessageDisplay}`, {
+      position: "top-center",
+      autoClose: 5000,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
 
   const registerUser = async (e) => {
     e.preventDefault();
@@ -40,25 +40,34 @@ function Login(props) {
       data: {
         email: registerEmail,
         password: registerPassword,
-        passwordCheck : confirmPassword,
-        username : username
+        passwordCheck: confirmPassword,
+        username: username,
       },
       url: "http://localhost:5000/register",
     }).then((res) => {
       if (res.data.status) {
         localStorage.setItem("data", JSON.stringify(res.data.username));
         history.push("/");
-        // notifySuccess();
+        notifySuccess();
       } else {
+        console.log(res);
         wrongMessageDisplay = res.data.msg;
-        history.push("/");
-        // notifyFailure();
+        notifyFailure();
       }
     });
   };
 
   return (
     <div>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+      />
       <div className="authForm">
         <h1>Register</h1>
         <form onSubmit={registerUser}>
@@ -100,10 +109,16 @@ function Login(props) {
           </div>
           <button className="btn">Register</button>
           <p>
-            Already have an account ? <Link to="/login"><span className="ax">Log In</span></Link>
+            Already have an account ?{" "}
+            <Link to="/login">
+              <span className="ax">Log In</span>
+            </Link>
           </p>
           <p>
-            Want to go back ? <Link to="/"><span className="ax">Home</span></Link>
+            Want to go back ?{" "}
+            <Link to="/">
+              <span className="ax">Home</span>
+            </Link>
           </p>
         </form>
       </div>

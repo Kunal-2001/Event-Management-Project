@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Stepper from "@material-ui/core/Stepper";
@@ -9,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import AddressForm from "./EventDetails";
 import DateAndTime from "./DateAndTime";
 import DescriptionForm from "./DescriptionForm";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -48,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CreateEventPage() {
+  let history = useHistory();
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   // const [startDate, setStartDate] = useState(new Date());
@@ -96,6 +99,23 @@ export default function CreateEventPage() {
     setActiveStep(activeStep - 1);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await axios({
+      method: "POST",
+      data: { eventData },
+      url: "http://localhost:5000/newevent",
+    })
+      .then((res) => {
+        console.log(res);
+        history.push("/events");
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("Mine");
+      });
+  };
+
   return (
     <React.Fragment>
       <main className={classes.layout}>
@@ -133,7 +153,7 @@ export default function CreateEventPage() {
                   <Button
                     variant="contained"
                     color="primary"
-                    onClick={handleNext}
+                    onClick={handleSubmit}
                     className={classes.button}
                   >
                     Submit

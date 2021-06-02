@@ -1,18 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import {
-  FaArrowLeft,
-  FaCheck,
-  FaCalendarAlt,
-  FaTimes,
-  FaExclamationTriangle,
-  FaClock,
-  FaThumbtack,
-  FaPlus,
-  FaAlignLeft,
-} from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./events.css";
-import { TiThLarge } from "react-icons/ti";
 import { Link, useHistory } from "react-router-dom";
 import EventHeader from "./eventHeader";
 import EventPageBody from "./eventPageBody";
@@ -35,6 +25,15 @@ const Profile = () => {
   console.log(data);
   return (
     <div className="profile-body">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+      />
       <div className="eventHeader">
         <EventHeader />
       </div>

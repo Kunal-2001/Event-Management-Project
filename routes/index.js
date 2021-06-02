@@ -90,17 +90,16 @@ router.post("/register", async (req, res) => {
     // validate
 
     if (!email || !password || !passwordCheck)
-      return res
-        .status(400)
-        .json({ msg: "Not all fields have been entered.", status: false });
+      return res.json({
+        msg: "Not all fields have been entered.",
+        status: false,
+      });
     if (password !== passwordCheck)
-      return res
-        .status(400)
-        .json({ msg: "Password not matching", status: false });
+      return res.json({ msg: "Password not matching", status: false });
 
     const existingUser = await User.findOne({ email: email });
     if (existingUser)
-      return res.status(400).json({
+      return res.json({
         msg: "An account with this email already exists.",
         status: false,
       });
@@ -128,28 +127,25 @@ router.post("/login", async (req, res) => {
 
     // validate
     if (!email || !password)
-      return res.status(400).json({ msg: "Enter all the fields" });
+      return res.json({ msg: "Enter all the fields", status: false });
 
     const user = await User.findOne({ email: email });
     if (!user)
-      return res.status(400).json({
+      return res.json({
         msg: "No account with this email has been registered.",
         status: false,
       });
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
-      return res.status(400).json({ msg: "Invalid password.", status: false });
+    if (!isMatch) return res.json({ msg: "Invalid password.", status: false });
 
-    const token = jwt.sign({ id: user._id }, "secret");
-    console.log("token", token);
-    res.json({
-      token,
-      user: {
-        id: user._id,
-        username: user.username,
-      },
-      status: true,
+    jwt.sign({ id: user._id }, "secret", { expiresIn: 3600 }, (err, token) => {
+      if (err) throw err;
+      return res.status(200).json({
+        token,
+        user: { id: user._id, username: user.username },
+        status: true,
+      });
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -158,36 +154,38 @@ router.post("/login", async (req, res) => {
 
 router.post("/newevent", async (req, res, next) => {
   let {
-    name,
+    eventName,
     genre,
-    description,
+    eventDescription,
     organizer,
     cost,
-    isOnlineEvent,
-    imageLink,
+    isOnline,
+    thumbnailImage,
     venue,
     city,
-    link,
+    websiteLink,
     likes,
-    eventStartDate,
-    eventEndDate,
-  } = req.body;
-  // console.log(req.body);
-  // let status = true;
+    startDate,
+    endDate,
+  } = req.body.eventData;
+  if (isOnline) {
+    venue = undefined;
+    city = undefined;
+  }
   let status = await saveEvent(
-    name,
+    eventName,
     genre,
-    description,
+    eventDescription,
     organizer,
     cost,
-    isOnlineEvent,
-    imageLink,
+    isOnline,
+    thumbnailImage,
     venue,
     city,
-    link,
+    websiteLink,
     likes,
-    eventStartDate,
-    eventEndDate
+    startDate,
+    endDate
   );
   res.json(status);
 });
