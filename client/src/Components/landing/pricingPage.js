@@ -1,14 +1,11 @@
 import React from "react";
-import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
-import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import StarIcon from "@material-ui/icons/StarBorder";
-import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,7 +16,7 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" href="#">
         Open Show
       </Link>{" "}
       {new Date().getFullYear()}
@@ -80,10 +77,9 @@ const tiers = [
     title: "Free",
     price: "0",
     description: [
-      "10 users included",
-      "2 GB of storage",
-      "Help center access",
-      "Email support",
+      "Upto 5 events allowed",
+      "Upto 50 participants allowed",
+      "1 concurrent event allowed",
     ],
     buttonText: "Sign up for free",
     buttonVariant: "outlined",
@@ -91,24 +87,24 @@ const tiers = [
   {
     title: "Pro",
     subheader: "Most popular",
-    price: "15",
+    price: "999",
     description: [
-      "20 users included",
-      "10 GB of storage",
+      "Upto 100 events allowed",
+      "10 concurrent events allowed",
+      "Upto 200 participants allowed",
       "Help center access",
-      "Priority email support",
     ],
     buttonText: "Get started",
     buttonVariant: "contained",
   },
   {
     title: "Enterprise",
-    price: "30",
+    price: "4999",
     description: [
-      "50 users included",
-      "30 GB of storage",
+      "Unlimited events allowed",
+      "50 concurrent events allowed",
+      "Upto 1000 participants allowed",
       "Help center access",
-      "Phone & email support",
     ],
     buttonText: "Contact us",
     buttonVariant: "outlined",
@@ -160,16 +156,6 @@ export default function Pricing() {
         >
           Pricing
         </Typography>
-        <Typography
-          variant="h5"
-          align="center"
-          color="textSecondary"
-          component="p"
-        >
-          Quickly build an effective pricing table for your potential customers
-          with this layout. It&apos;s built with default Material-UI components
-          with little customization.
-        </Typography>
       </Container>
       {/* End hero unit */}
       <Container maxWidth="md" component="main">
@@ -195,7 +181,7 @@ export default function Pricing() {
                 <CardContent>
                   <div className={classes.cardPricing}>
                     <Typography component="h2" variant="h3" color="textPrimary">
-                      ${tier.price}
+                      &#8377;{tier.price}
                     </Typography>
                     <Typography variant="h6" color="textSecondary">
                       /mo
