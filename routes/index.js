@@ -7,9 +7,9 @@ var jwt = require("jsonwebtoken");
 var User = require("../models/user");
 var nodemailer = require("nodemailer");
 var { saveEvent } = require("../controller/db");
-var Events = require("../models/event");
+var Event = require("../models/event");
 var multer = require("multer");
-var path = require("path");
+var { storage } = require("../cloudinary");
 var transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -19,11 +19,7 @@ var transporter = nodemailer.createTransport({
 });
 
 // Set Storage Engine
-const upload = multer({ dest: "public/" });
-
-router.post("/yo", upload.single("thumbnailImage"), (req, res) => {
-  console.log(req.file);
-});
+const upload = multer({ storage });
 
 router.post("/sendMail", (req, res) => {
   ejs.renderFile(__dirname + "/index.ejs", function (err, data) {
@@ -161,42 +157,95 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("/newevent", async (req, res, next) => {
-  let {
-    eventName,
-    genre,
-    eventDescription,
-    organizer,
-    cost,
-    isOnline,
-    thumbnailImage,
-    venue,
-    city,
-    websiteLink,
-    likes,
-    startDate,
-    endDate,
-  } = req.body.eventData;
-  if (isOnline) {
-    venue = undefined;
-    city = undefined;
+router.post(
+  "/thumbnailUpload",
+  upload.single("thumbnailImage"),
+  async (req, res, next) => {
+    // let {
+    // eventName,
+    // genre,
+    // eventDescription,
+    // organizer,
+    // cost,
+    // isOnline,
+    // venue,
+    // city,
+    // websiteLink,
+    // startDate,
+    // endDate,
+    // } = req.body.eventData;
+    console.log(req.file);
+    let thumbnailImageUrl = req.file.path;
+    let thumbnailImageLocation = req.file.filename;
+    try {
+      let newEvent = new Event({
+        // eventName,
+        // genre,
+        // eventDescription,
+        // organizer,
+        // cost,
+        // isOnline,
+        // venue,
+        // city,
+        // websiteLink,
+        // startDate,
+        // endDate,
+        thumbnailImageUrl,
+        thumbnailImageLocation,
+      });
+      newEvent
+        .save()
+        .then((response) => {
+          res.json(response._id);
+        })
+        .catch((err) => console.log(err));
+    } catch (err) {
+      throw new Error("Not working");
+    }
   }
-  let status = await saveEvent(
-    eventName,
-    genre,
-    eventDescription,
-    organizer,
-    cost,
-    isOnline,
-    thumbnailImage,
-    venue,
-    city,
-    websiteLink,
-    likes,
-    startDate,
-    endDate
-  );
-  res.json(status);
+);
+
+router.post("/newevent", async (req, res, next) => {
+  // let {
+  //   eventName,
+  //   genre,
+  //   eventDescription,
+  //   organizer,
+  //   cost,
+  //   isOnline,
+  //   venue,
+  //   city,
+  //   websiteLink,
+  //   likes,
+  //   startDate,
+  //   endDate,
+  // } = req.body.eventData;
+  // console.log(req.body);
+  // Fetching the thumbnail
+  // let thumbnail = req.file;
+  // let thumbnailImageUrl = thumbnail.path;
+  // let thumbnailImageLocation = thumbnail.filename;
+  // if (isOnline) {
+  //   venue = undefined;
+  //   city = undefined;
+  // }
+  // let status = await saveEvent(
+  //   eventName,
+  //   genre,
+  //   eventDescription,
+  //   organizer,
+  //   cost,
+  //   isOnline,
+  //   thumbnailImageUrl,
+  //   thumbnailImageLocation,
+  //   venue,
+  //   city,
+  //   websiteLink,
+  //   likes,
+  //   startDate,
+  //   endDate
+  // );
+  // res.json({ status, url: thumbnailImageUrl });
 });
 
 router.get("/fetchEvents", async (req, res) => {

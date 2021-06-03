@@ -32,8 +32,8 @@ export default function AddressForm({ eventData, setEventData }) {
       };
     });
   };
-  const handleFileChange = (e) => {
-    // e.preventDefault();
+  const handleFileChange = async (e) => {
+    e.preventDefault();
     const fileData = e.target.files[0];
     setEventData((prevState) => {
       return {
@@ -41,19 +41,41 @@ export default function AddressForm({ eventData, setEventData }) {
         thumbnailImage: fileData,
       };
     });
-  };
-
-  const uploadImage = (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("thumbnailImage", eventData.thumbnailImage);
-    axios({
+    let formData = new FormData();
+    formData.append("thumbnailImage", fileData);
+    await axios({
       method: "POST",
       data: formData,
-      url: "http://localhost:5000/yo",
-    }).then((res) => {
-      console.log(res);
-    });
+      url: "http://localhost:5000/thumbnailUpload",
+    })
+      .then((res) => {
+        console.log(res);
+        // history.push("/newevent");
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("Mine");
+      });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let formData = new FormData();
+    formData.append("thumbnailImage", eventData.thumbnailImage);
+    console.log(formData);
+    console.log(eventData);
+    await axios({
+      method: "POST",
+      data: formData,
+      url: "http://localhost:5000/newevent",
+    })
+      .then((res) => {
+        console.log(res);
+        // history.push("/newevent");
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("Mine");
+      });
   };
 
   const handleEventRemoteStatus = (e) => {
@@ -96,44 +118,12 @@ export default function AddressForm({ eventData, setEventData }) {
           />
         </Grid>
         <Grid item xs={12}>
-          <form onSubmit={uploadImage} enctype="multipart/form-data">
+          <form enctype="multipart/form-data">
             <div>
               <input type="file" onChange={handleFileChange} />
-            </div>
-            <div className="form-group">
-              <button className="btn btn-primary" type="submit">
-                Upload
-              </button>
+              {/* <input type="submit" onClick={handleSubmit} /> */}
             </div>
           </form>
-          {/* <input
-            accept="image/*"
-            className={classes.input}
-            id="contained-button-file"
-            single
-            onChange={handleFileChange}
-            type="file"
-          />
-          <label htmlFor="contained-button-file">
-            <Button */}
-          {/* // onClick={handleFileChange} */}
-          {/* variant="contained"
-              color="primary"
-              component="span"
-            >
-              Upload
-            </Button>
-          </label> */}
-          {/* <TextField
-            required
-            value={eventData.thumbnailImage}
-            id="thumbnailImage"
-            name="thumbnailImage"
-            label="Thumbnail Image Link"
-            fullWidth
-            autoComplete="Thumbnail Image Link"
-            onChange={handleChange}
-          /> */}
         </Grid>
         <Grid item xs={12}>
           <TextField

@@ -69,6 +69,7 @@ export default function CreateEventPage() {
     startDate: new Date(),
     endDate: new Date(),
   });
+  const [thumbnailImageLink, setThumbnailImageLink] = useState("");
 
   const steps = ["Fill Form", "Add description", "Choose a date"];
 
@@ -108,7 +109,7 @@ export default function CreateEventPage() {
     })
       .then((res) => {
         console.log(res);
-        history.push("/events");
+        // history.push("/newevent");
       })
       .catch((err) => {
         console.log(err);
