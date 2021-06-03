@@ -4,8 +4,23 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import axios from "axios";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+  input: {
+    display: "none",
+  },
+}));
 
 export default function AddressForm({ eventData, setEventData }) {
+  const classes = useStyles();
   const handleChange = (e) => {
     let value = e.target.value;
     let name = e.target.name;
@@ -16,6 +31,51 @@ export default function AddressForm({ eventData, setEventData }) {
         [name]: value,
       };
     });
+  };
+  const handleFileChange = async (e) => {
+    e.preventDefault();
+    const fileData = e.target.files[0];
+    setEventData((prevState) => {
+      return {
+        ...prevState,
+        thumbnailImage: fileData,
+      };
+    });
+    let formData = new FormData();
+    formData.append("thumbnailImage", fileData);
+    await axios({
+      method: "POST",
+      data: formData,
+      url: "http://localhost:5000/thumbnailUpload",
+    })
+      .then((res) => {
+        console.log(res);
+        // history.push("/newevent");
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("Mine");
+      });
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let formData = new FormData();
+    formData.append("thumbnailImage", eventData.thumbnailImage);
+    console.log(formData);
+    console.log(eventData);
+    await axios({
+      method: "POST",
+      data: formData,
+      url: "http://localhost:5000/newevent",
+    })
+      .then((res) => {
+        console.log(res);
+        // history.push("/newevent");
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("Mine");
+      });
   };
 
   const handleEventRemoteStatus = (e) => {
@@ -58,16 +118,12 @@ export default function AddressForm({ eventData, setEventData }) {
           />
         </Grid>
         <Grid item xs={12}>
-          <TextField
-            required
-            value={eventData.thumbnailImage}
-            id="thumbnailImage"
-            name="thumbnailImage"
-            label="Thumbnail Image Link"
-            fullWidth
-            autoComplete="Thumbnail Image Link"
-            onChange={handleChange}
-          />
+          <form enctype="multipart/form-data">
+            <div>
+              <input type="file" onChange={handleFileChange} />
+              {/* <input type="submit" onClick={handleSubmit} /> */}
+            </div>
+          </form>
         </Grid>
         <Grid item xs={12}>
           <TextField

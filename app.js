@@ -1,7 +1,9 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-require("dotenv").config();
 require("./config/database");
 const indexRoute = require("./routes/index");
 // set up express
@@ -17,4 +19,3 @@ app.listen(PORT, () => console.log(`The server has started on port: ${PORT}`));
 // set up routes
 
 app.use("/", indexRoute);
-// app.use("/todos", require("./routes/todo"));
