@@ -8,7 +8,8 @@ var User = require("../models/user");
 var nodemailer = require("nodemailer");
 var { saveEvent } = require("../controller/db");
 var Events = require("../models/event");
-
+var multer = require("multer");
+var path = require("path");
 var transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -16,6 +17,14 @@ var transporter = nodemailer.createTransport({
     pass: process.env.SENDER_PWD,
   },
 });
+
+// Set Storage Engine
+const upload = multer({ dest: "public/" });
+
+router.post("/yo", upload.single("thumbnailImage"), (req, res) => {
+  console.log(req.file);
+});
+
 router.post("/sendMail", (req, res) => {
   ejs.renderFile(__dirname + "/index.ejs", function (err, data) {
     console.log(req.body);

@@ -17,4 +17,3 @@ app.listen(PORT, () => console.log(`The server has started on port: ${PORT}`));
 // set up routes
 
 app.use("/", indexRoute);
-// app.use("/todos", require("./routes/todo"));
