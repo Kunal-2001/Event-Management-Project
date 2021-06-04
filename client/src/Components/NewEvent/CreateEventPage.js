@@ -53,13 +53,11 @@ export default function CreateEventPage() {
   let history = useHistory();
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  // const [startDate, setStartDate] = useState(new Date());
-  // const [endDate, setEndDate] = useState(new Date());
   const [eventData, setEventData] = useState({
+    eventId: "",
     isOnline: false,
     eventName: "",
     genre: "",
-    thumbnailImage: "",
     websiteLink: "",
     city: "",
     venue: "",
@@ -109,7 +107,6 @@ export default function CreateEventPage() {
     })
       .then((res) => {
         console.log(res);
-        // history.push("/newevent");
       })
       .catch((err) => {
         console.log(err);
