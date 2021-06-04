@@ -46,7 +46,7 @@ export default function AddressForm({ eventData, setEventData }) {
     });
     let formData = new FormData();
     formData.append("thumbnailImage", fileData);
-    await axios({
+    axios({
       method: "POST",
       data: formData,
       url: "http://localhost:5000/thumbnailUpload",
@@ -60,26 +60,6 @@ export default function AddressForm({ eventData, setEventData }) {
           };
         });
         setLoader(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log("Mine");
-      });
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let formData = new FormData();
-    formData.append("thumbnailImage", eventData.thumbnailImage);
-    console.log(formData);
-    console.log(eventData);
-    await axios({
-      method: "POST",
-      data: formData,
-      url: "http://localhost:5000/newevent",
-    })
-      .then((res) => {
-        console.log(res);
-        // history.push("/newevent");
       })
       .catch((err) => {
         console.log(err);

@@ -10,6 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import AddressForm from "./EventDetails";
 import DateAndTime from "./DateAndTime";
 import DescriptionForm from "./DescriptionForm";
+import NewEventLoader from "./NewEventLoader";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -67,8 +68,7 @@ export default function CreateEventPage() {
     startDate: new Date(),
     endDate: new Date(),
   });
-  const [thumbnailImageLink, setThumbnailImageLink] = useState("");
-
+  const [loader, setLoader] = useState(false);
   const steps = ["Fill Form", "Add description", "Choose a date"];
 
   function getStepContent(step) {
@@ -100,13 +100,15 @@ export default function CreateEventPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios({
+    setLoader(true);
+    axios({
       method: "POST",
       data: { eventData },
       url: "http://localhost:5000/newevent",
     })
       .then((res) => {
-        console.log(res);
+        history.push("/events");
+        setLoader(false);
       })
       .catch((err) => {
         console.log(err);
@@ -116,6 +118,7 @@ export default function CreateEventPage() {
 
   return (
     <React.Fragment>
+      <NewEventLoader isOpen={loader} />
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
