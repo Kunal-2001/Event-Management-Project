@@ -18,7 +18,6 @@ const Profile = () => {
       method: "GET",
       url: "http://localhost:5000/fetchEvents",
     }).then((res) => {
-      console.log(res.data.events);
       setData(res.data.events);
     });
   }, []);

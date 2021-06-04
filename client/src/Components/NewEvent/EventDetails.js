@@ -6,6 +6,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import FileUploadLoader from "./FileUploadLoader";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -21,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AddressForm({ eventData, setEventData }) {
   const classes = useStyles();
+  const [loader, setLoader] = useState(false);
   const handleChange = (e) => {
     let value = e.target.value;
     let name = e.target.name;
@@ -34,6 +36,7 @@ export default function AddressForm({ eventData, setEventData }) {
   };
   const handleFileChange = async (e) => {
     e.preventDefault();
+    setLoader(true);
     const fileData = e.target.files[0];
     setEventData((prevState) => {
       return {
@@ -43,34 +46,20 @@ export default function AddressForm({ eventData, setEventData }) {
     });
     let formData = new FormData();
     formData.append("thumbnailImage", fileData);
-    await axios({
+    axios({
       method: "POST",
       data: formData,
       url: "http://localhost:5000/thumbnailUpload",
     })
       .then((res) => {
-        console.log(res);
-        // history.push("/newevent");
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log("Mine");
-      });
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let formData = new FormData();
-    formData.append("thumbnailImage", eventData.thumbnailImage);
-    console.log(formData);
-    console.log(eventData);
-    await axios({
-      method: "POST",
-      data: formData,
-      url: "http://localhost:5000/newevent",
-    })
-      .then((res) => {
-        console.log(res);
-        // history.push("/newevent");
+        sessionStorage.setItem("eventID", res.data);
+        setEventData((prevState) => {
+          return {
+            ...prevState,
+            eventId: res.data,
+          };
+        });
+        setLoader(false);
       })
       .catch((err) => {
         console.log(err);
@@ -89,6 +78,7 @@ export default function AddressForm({ eventData, setEventData }) {
   };
   return (
     <React.Fragment>
+      <FileUploadLoader isOpen={loader} />
       <Typography variant="h6" gutterBottom>
         Event Information:
       </Typography>

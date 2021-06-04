@@ -41,6 +41,43 @@ const saveEvent = (
   }
 };
 
+const editEvent = async ({
+  eventId,
+  eventName,
+  genre,
+  eventDescription,
+  organizer,
+  cost,
+  isOnline,
+  venue,
+  city,
+  websiteLink,
+  startDate,
+  endDate,
+}) => {
+  event
+    .findByIdAndUpdate(eventId, {
+      eventName,
+      genre,
+      eventDescription,
+      organizer,
+      cost,
+      isOnline,
+      venue,
+      city,
+      websiteLink,
+      startDate,
+      endDate,
+    })
+    .then((res) => {
+      return true;
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 module.exports = {
   saveEvent,
+  editEvent,
 };
