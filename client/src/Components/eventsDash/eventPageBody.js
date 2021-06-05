@@ -19,7 +19,7 @@ export default function EventPageBody({ events }) {
   // console.log(searchQuery);
   let allEvents = events.map((e) => (
     <EventCard
-      image={e.thumbnailImage}
+      image={e.thumbnailImageUrl}
       desc={e.eventDescription}
       name={e.eventName}
       rate={e.cost}
