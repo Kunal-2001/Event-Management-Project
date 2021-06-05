@@ -3,42 +3,51 @@ var mongoose = require("mongoose");
 const eventSchema = new mongoose.Schema({
   eventName: {
     type: String,
+    default: "Name",
     required: true,
   },
   genre: {
     type: String,
+    default: "Comedy",
     required: true,
   },
   eventDescription: {
     type: String,
+    default: "Fun",
     required: true,
   },
   organizer: {
     type: String,
+    default: "Organzier",
     required: true,
   },
   cost: {
     type: Number,
+    default: 0,
     required: true,
   },
   isOnline: {
     type: Boolean,
     default: false,
   },
-  thumbnailImage: {
+  thumbnailImageUrl: {
+    type: String,
+  },
+  thumbnailImageLocation: {
     type: String,
   },
   venue: {
     type: String,
-    default: undefined,
+    default: "venue",
   },
   city: {
     type: String,
-    default: undefined,
+    default: "city",
   },
   websiteLink: {
     type: String,
     required: true,
+    default: "yes",
   },
   likes: {
     type: Number,
@@ -46,9 +55,11 @@ const eventSchema = new mongoose.Schema({
   },
   startDate: {
     type: Date,
+    default: Date.now(),
   },
   endDate: {
     type: Date,
+    default: Date.now(),
   },
 });
 

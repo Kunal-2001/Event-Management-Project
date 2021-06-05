@@ -4,8 +4,25 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
+import FileUploadLoader from "./FileUploadLoader";
+import axios from "axios";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+  input: {
+    display: "none",
+  },
+}));
 
 export default function AddressForm({ eventData, setEventData }) {
+  const classes = useStyles();
+  const [loader, setLoader] = useState(false);
   const handleChange = (e) => {
     let value = e.target.value;
     let name = e.target.name;
@@ -16,6 +33,38 @@ export default function AddressForm({ eventData, setEventData }) {
         [name]: value,
       };
     });
+  };
+  const handleFileChange = async (e) => {
+    e.preventDefault();
+    setLoader(true);
+    const fileData = e.target.files[0];
+    setEventData((prevState) => {
+      return {
+        ...prevState,
+        thumbnailImage: fileData,
+      };
+    });
+    let formData = new FormData();
+    formData.append("thumbnailImage", fileData);
+    axios({
+      method: "POST",
+      data: formData,
+      url: "http://localhost:5000/thumbnailUpload",
+    })
+      .then((res) => {
+        sessionStorage.setItem("eventID", res.data);
+        setEventData((prevState) => {
+          return {
+            ...prevState,
+            eventId: res.data,
+          };
+        });
+        setLoader(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log("Mine");
+      });
   };
 
   const handleEventRemoteStatus = (e) => {
@@ -29,6 +78,7 @@ export default function AddressForm({ eventData, setEventData }) {
   };
   return (
     <React.Fragment>
+      <FileUploadLoader isOpen={loader} />
       <Typography variant="h6" gutterBottom>
         Event Information:
       </Typography>
@@ -58,16 +108,12 @@ export default function AddressForm({ eventData, setEventData }) {
           />
         </Grid>
         <Grid item xs={12}>
-          <TextField
-            required
-            value={eventData.thumbnailImage}
-            id="thumbnailImage"
-            name="thumbnailImage"
-            label="Thumbnail Image Link"
-            fullWidth
-            autoComplete="Thumbnail Image Link"
-            onChange={handleChange}
-          />
+          <form enctype="multipart/form-data">
+            <div>
+              <input type="file" onChange={handleFileChange} />
+              {/* <input type="submit" onClick={handleSubmit} /> */}
+            </div>
+          </form>
         </Grid>
         <Grid item xs={12}>
           <TextField

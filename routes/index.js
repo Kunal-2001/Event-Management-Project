@@ -6,9 +6,12 @@ var ejs = require("ejs");
 var jwt = require("jsonwebtoken");
 var User = require("../models/user");
 var nodemailer = require("nodemailer");
-var { saveEvent } = require("../controller/db");
-var Events = require("../models/event");
-
+var { saveEvent, editEvent } = require("../controller/db");
+var Event = require("../models/event");
+var multer = require("multer");
+var { storage } = require("../cloudinary");
+const ObjectId = require("mongoose").ObjectId;
+const { Mongoose } = require("mongoose");
 var transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -16,6 +19,10 @@ var transporter = nodemailer.createTransport({
     pass: process.env.SENDER_PWD,
   },
 });
+
+// Set Storage Engine
+const upload = multer({ storage });
+
 router.post("/sendMail", (req, res) => {
   ejs.renderFile(__dirname + "/index.ejs", function (err, data) {
     console.log(req.body);
@@ -152,46 +159,83 @@ router.post("/login", async (req, res) => {
   }
 });
 
+router.post(
+  "/thumbnailUpload",
+  upload.single("thumbnailImage"),
+  async (req, res, next) => {
+    // let {
+    // eventName,
+    // genre,
+    // eventDescription,
+    // organizer,
+    // cost,
+    // isOnline,
+    // venue,
+    // city,
+    // websiteLink,
+    // startDate,
+    // endDate,
+    // } = req.body.eventData;
+    console.log(req.file);
+    let thumbnailImageUrl = req.file.path;
+    let thumbnailImageLocation = req.file.filename;
+    try {
+      let newEvent = new Event({
+        thumbnailImageUrl,
+        thumbnailImageLocation,
+      });
+      newEvent
+        .save()
+        .then((response) => {
+          res.json(response._id);
+        })
+        .catch((err) => console.log(err));
+    } catch (err) {
+      throw new Error("Not working");
+    }
+  }
+);
+
 router.post("/newevent", async (req, res, next) => {
+  // console.log(req.body);
   let {
+    eventId,
     eventName,
     genre,
     eventDescription,
     organizer,
     cost,
     isOnline,
-    thumbnailImage,
     venue,
     city,
     websiteLink,
-    likes,
     startDate,
     endDate,
   } = req.body.eventData;
-  if (isOnline) {
-    venue = undefined;
-    city = undefined;
-  }
-  let status = await saveEvent(
+  console.log(eventId);
+  let response = await editEvent({
+    eventId,
     eventName,
     genre,
     eventDescription,
     organizer,
     cost,
     isOnline,
-    thumbnailImage,
     venue,
     city,
     websiteLink,
-    likes,
     startDate,
-    endDate
-  );
-  res.json(status);
+    endDate,
+  });
+  if (response) {
+    res.json(true);
+  } else {
+    res.json(false);
+  }
 });
 
 router.get("/fetchEvents", async (req, res) => {
-  const events = await Events.find();
+  const events = await Event.find();
   res.json({ events: events });
 });
 

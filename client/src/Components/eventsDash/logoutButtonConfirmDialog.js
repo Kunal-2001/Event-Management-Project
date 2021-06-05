@@ -34,12 +34,6 @@ export default function AlertDialog() {
         <DialogTitle id="alert-dialog-title">
           {"Are you sure you want to logout?"}
         </DialogTitle>
-        {/* <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are running.
-          </DialogContentText>
-        </DialogContent> */}
         <DialogActions>
           <Button onClick={() => setOpen(false)} color="primary">
             Cancel
