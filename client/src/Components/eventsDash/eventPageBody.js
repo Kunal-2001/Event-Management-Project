@@ -24,6 +24,7 @@ export default function EventPageBody({ events }) {
       name={e.eventName}
       rate={e.cost}
       genre={e.genre}
+      userID={e.userID}
     />
   ));
   return <div className="eventCards">{allEvents}</div>;

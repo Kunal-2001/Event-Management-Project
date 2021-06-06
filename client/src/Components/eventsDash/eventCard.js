@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -93,7 +93,15 @@ function loadScript(src) {
 }
 
 export default function EventCard(props) {
-  async function payment() {
+  let [isAdmin, setIsAdmin] = useState(false);
+  useEffect(() => {
+    let currentUser = JSON.parse(localStorage.getItem("data")).id;
+    let eventAdmin = props.userID;
+    if (currentUser === eventAdmin) {
+      setIsAdmin(true);
+    }
+  }, []);
+  async function payment(e) {
     const res = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
     );
@@ -112,8 +120,8 @@ export default function EventCard(props) {
       key: process.env.REACT_APP_RAZORPAY_KEY_ID,
       amount: data.amount.toString(),
       currency: data.currency,
-      name: "Acme Corp",
-      description: "Test Transaction",
+      name: props.name,
+      description: "Non refundable payment",
       image: "http://localhost:5000/Logo2.png",
       order_id: data.id,
       handler: function (response) {
@@ -121,10 +129,14 @@ export default function EventCard(props) {
         alert(response.razorpay_order_id);
         alert(response.razorpay_signature);
       },
+      readOnly: {
+        name: false,
+        email: false,
+      },
       prefill: {
-        name: "Gaurav Kumar",
-        email: "gaurav.kumar@example.com",
-        contact: "9999999999",
+        name: "Something Random",
+        email: "sdfdsjfh2@ndsfdf.com",
+        contact: "9899999999",
       },
     };
     var paymentObjectRZP = new window.Razorpay(options);
@@ -138,6 +150,7 @@ export default function EventCard(props) {
       alert(response.error.metadata.payment_id);
     });
     paymentObjectRZP.open();
+    e.preventDefault();
   }
   const classes = useStyles();
   const [drawerState, setDrawerState] = useState(false);
@@ -259,6 +272,7 @@ export default function EventCard(props) {
           >
             Book Now
           </Button>
+          {isAdmin && <button>Yo</button>}
           <Drawer
             anchor="right"
             open={drawerState}

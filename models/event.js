@@ -61,6 +61,10 @@ const eventSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  userID: {
+    type: String,
+    default: "Nothing",
+  },
 });
 
 module.exports = mongoose.model("event", eventSchema);

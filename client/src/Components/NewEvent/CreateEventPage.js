@@ -101,9 +101,11 @@ export default function CreateEventPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoader(true);
+    let userID = JSON.parse(localStorage.getItem("data"));
+    console.log(userID.id);
     axios({
       method: "POST",
-      data: { eventData },
+      data: { eventData: eventData, userID: userID.id },
       url: "http://localhost:5000/newevent",
     })
       .then((res) => {
