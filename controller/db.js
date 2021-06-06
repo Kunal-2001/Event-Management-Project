@@ -41,6 +41,15 @@ const saveEvent = (
   }
 };
 
+const deleteEvent = async (eventId) => {
+  let res = await event.findByIdAndRemove(eventId);
+  if (res) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 const editEvent = async ({
   eventId,
   eventName,
@@ -82,4 +91,5 @@ const editEvent = async ({
 module.exports = {
   saveEvent,
   editEvent,
+  deleteEvent,
 };

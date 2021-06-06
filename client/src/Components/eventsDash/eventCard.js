@@ -14,6 +14,11 @@ import LocationOnIcon from "@material-ui/icons/LocationOn";
 import Rating from "@material-ui/lab/Rating";
 import Box from "@material-ui/core/Box";
 import PaymentIcon from "@material-ui/icons/Payment";
+import DeleteIcon from "@material-ui/icons/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: "300px",
     paddingTop: "56.25%", // 16:9
+    display: "block",
   },
   expand: {
     transform: "rotate(0deg)",
@@ -76,6 +82,21 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "20px",
     marginLeft: "10px",
   },
+  imageContainer: {
+    position: "relative",
+  },
+  deleteIcon: {
+    position: "absolute",
+    top: "0",
+    right: "-20px",
+    color: "#ff283a",
+  },
+  editIcon: {
+    position: "absolute",
+    top: "0",
+    right: "10px",
+    color: "#ffffff",
+  },
 }));
 
 function loadScript(src) {
@@ -94,6 +115,27 @@ function loadScript(src) {
 
 export default function EventCard(props) {
   let [isAdmin, setIsAdmin] = useState(false);
+  const [open, setOpen] = useState(false);
+  let eventStartDate = new Date(props.startDate);
+  eventStartDate = eventStartDate.toString();
+  let modifiedStartDate =
+    eventStartDate.split(" ")[0] +
+    " " +
+    eventStartDate.split(" ")[2] +
+    " " +
+    eventStartDate.split(" ")[1] +
+    " " +
+    eventStartDate.split(" ")[3];
+  let eventEndDate = new Date(props.endDate);
+  eventEndDate = eventEndDate.toString();
+  let modifiedEndDate =
+    eventEndDate.split(" ")[0] +
+    " " +
+    eventEndDate.split(" ")[2] +
+    " " +
+    eventEndDate.split(" ")[1] +
+    " " +
+    eventEndDate.split(" ")[3];
   useEffect(() => {
     let currentUser = JSON.parse(localStorage.getItem("data")).id;
     let eventAdmin = props.userID;
@@ -101,7 +143,15 @@ export default function EventCard(props) {
       setIsAdmin(true);
     }
   }, []);
-  async function payment(e) {
+  const handleDeleteEvent = async () => {
+    const response = await axios({
+      method: "POST",
+      data: { eventId: props.eventId },
+      url: "http://localhost:5000/deleteEvent",
+    });
+    props.setData(response.data.events);
+  };
+  const payment = async (e) => {
     const res = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
     );
@@ -151,7 +201,7 @@ export default function EventCard(props) {
     });
     paymentObjectRZP.open();
     e.preventDefault();
-  }
+  };
   const classes = useStyles();
   const [drawerState, setDrawerState] = useState(false);
   const [favourite, setFavourite] = useState(false);
@@ -177,13 +227,7 @@ export default function EventCard(props) {
             color="textSecondary"
             component="p"
           >
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris
-            dignissim diam ultricies aliquam tempus. Nam vel iaculis eros. Donec
-            ultrices tellus eu facilisis facilisis. Ut et libero ut orci semper
-            tincidunt et vulputate lorem. Fusce dapibus eros sit amet nisl
-            condimentum, sit amet aliquam massa sollicitudin. Vestibulum finibus
-            sit amet ex sed pharetra. Nulla et fringilla lacus, sed vulputate
-            velit.
+            {props.desc}
           </Typography>
           <Typography
             style={{ marginTop: "25px" }}
@@ -192,20 +236,23 @@ export default function EventCard(props) {
             component="p"
             align="left"
           >
-            Thu 29 Apr 2021 - Fri 30 Apr 2021
+            {`${modifiedStartDate} - ${modifiedEndDate}`}
+            {/* Thu 29 Apr 2021 - Fri 30 Apr 2021 */}
           </Typography>
-          <Typography
-            style={{ marginTop: "10px", marginLeft: "-10px" }}
-            variant="subtitle1"
-            color="textPrimary"
-            component="p"
-            align="left"
-          >
-            <IconButton color="secondary" aria-label="add to favorites">
-              <LocationOnIcon />
-            </IconButton>
-            Online Streaming
-          </Typography>
+          {props.isOnline && (
+            <Typography
+              style={{ marginTop: "10px", marginLeft: "-10px" }}
+              variant="subtitle1"
+              color="textPrimary"
+              component="p"
+              align="left"
+            >
+              <IconButton color="secondary" aria-label="add to favorites">
+                <LocationOnIcon />
+              </IconButton>
+              Online Streaming
+            </Typography>
+          )}
           <Typography
             style={{ marginTop: "10px", marginLeft: "10px" }}
             variant="subtitle1"
@@ -246,12 +293,47 @@ export default function EventCard(props) {
 
   return (
     <Card className={classes.root}>
-      <CardMedia className={classes.media} image={props.image} />
+      <div className={classes.imageContainer}>
+        <CardMedia className={classes.media} image={props.image} />
+        {isAdmin && (
+          <Button className={classes.editIcon}>
+            <EditIcon />
+          </Button>
+        )}
+        {isAdmin && (
+          <>
+            <Button
+              onClick={() => setOpen(true)}
+              className={classes.deleteIcon}
+            >
+              <DeleteIcon />
+            </Button>
+            <Dialog
+              open={open}
+              onClose={() => setOpen(false)}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogTitle id="alert-dialog-title">
+                Delete event {`"${props.name}"`}
+              </DialogTitle>
+              <DialogActions>
+                <Button onClick={() => setOpen(false)} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={handleDeleteEvent} color="primary" autoFocus>
+                  Confirm
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </>
+        )}
+      </div>
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
+          {props.desc.length > 200
+            ? `${props.desc.substring(0, 200)}......`
+            : props.desc}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -272,7 +354,6 @@ export default function EventCard(props) {
           >
             Book Now
           </Button>
-          {isAdmin && <button>Yo</button>}
           <Drawer
             anchor="right"
             open={drawerState}

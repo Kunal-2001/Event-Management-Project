@@ -8,7 +8,7 @@ import logo from "../../images/Logo2.png";
 import LogoutConfirm from "./logoutButtonConfirmDialog";
 export default function Header() {
   const { searchQuery, setSearchQuery } = useContext(State);
-
+  const userName = JSON.parse(localStorage.getItem("data")).username;
   return (
     <div className="header-container">
       <ul className="header">
@@ -41,14 +41,11 @@ export default function Header() {
             </Link>
             <Link className="header-elements">
               <Button variant="outlined" color="primary">
-                No
+                {userName}
               </Button>
             </Link>
             <Link className="header-elements">
               <LogoutConfirm />
-              {/* <Button variant="outlined" color="primary">
-                Logout
-              </Button> */}
             </Link>
           </li>
         </div>

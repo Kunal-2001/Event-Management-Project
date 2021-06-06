@@ -5,7 +5,6 @@ import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import FileUploadLoader from "./FileUploadLoader";
 import axios from "axios";
 
@@ -109,9 +108,13 @@ export default function AddressForm({ eventData, setEventData }) {
         </Grid>
         <Grid item xs={12}>
           <form enctype="multipart/form-data">
-            <div>
-              <input type="file" onChange={handleFileChange} />
-              {/* <input type="submit" onClick={handleSubmit} /> */}
+            <div style={{ display: "flex" }}>
+              <Typography>Choose thumbnail</Typography>
+              <input
+                style={{ marginLeft: "10px" }}
+                type="file"
+                onChange={handleFileChange}
+              />
             </div>
           </form>
         </Grid>
@@ -158,7 +161,7 @@ export default function AddressForm({ eventData, setEventData }) {
             value={eventData.cost}
             id="cost"
             name="cost"
-            label="Price ($)"
+            label="Price (&#8377;)"
             fullWidth
             type="number"
             autoComplete="Price"
