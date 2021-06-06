@@ -41,7 +41,7 @@ export default function Header() {
             </Link>
             <Link className="header-elements">
               <Button variant="outlined" color="primary">
-                Harry
+                No
               </Button>
             </Link>
             <Link className="header-elements">

@@ -1,5 +1,5 @@
 var express = require("express");
-var app = express();
+var path = require("path");
 var router = express.Router();
 var bcrypt = require("bcrypt");
 var ejs = require("ejs");
@@ -19,9 +19,17 @@ var transporter = nodemailer.createTransport({
     pass: process.env.SENDER_PWD,
   },
 });
+var Razorpay = require("razorpay");
+var shortid = require("shortid");
 
 // Set Storage Engine
 const upload = multer({ storage });
+
+// Razorpay instance
+var instance = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 router.post("/sendMail", (req, res) => {
   ejs.renderFile(__dirname + "/index.ejs", function (err, data) {
@@ -239,4 +247,23 @@ router.get("/fetchEvents", async (req, res) => {
   res.json({ events: events });
 });
 
+router.post("/razorpay", async (req, res) => {
+  const payment_capture = 1;
+  const { amount } = req.body;
+  const currency = "INR";
+  const cost = amount.toString();
+  const config = {
+    amount: cost,
+    currency,
+    receipt: shortid.generate(),
+    payment_capture,
+  };
+  const response = await instance.orders.create(config);
+  console.log(response);
+  res.json(response);
+});
+
+router.get("/Logo2.png", (req, res) => {
+  res.sendFile(path.join(__dirname, "Logo2.png"));
+});
 module.exports = router;
