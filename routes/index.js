@@ -6,7 +6,7 @@ var ejs = require("ejs");
 var jwt = require("jsonwebtoken");
 var User = require("../models/user");
 var nodemailer = require("nodemailer");
-var { saveEvent, editEvent } = require("../controller/db");
+var { saveEvent, editEvent, deleteEvent } = require("../controller/db");
 var Event = require("../models/event");
 var multer = require("multer");
 var { storage } = require("../cloudinary");
@@ -233,6 +233,22 @@ router.post("/newevent", async (req, res, next) => {
 router.get("/fetchEvents", async (req, res) => {
   const events = await Event.find();
   res.json({ events: events });
+});
+
+router.post("/deleteEvent", async (req, res) => {
+  let { eventId } = req.body;
+  // console.log(eventId);
+  const response = await deleteEvent(eventId);
+  // console.log(response);
+  const events = await Event.find();
+  let message;
+  if (response) {
+    message = "Event Deleted";
+    res.json({ message, events: events });
+  } else {
+    message = "Something went wrong";
+    res.json({ message, events: events });
+  }
 });
 
 router.post("/razorpay", async (req, res) => {

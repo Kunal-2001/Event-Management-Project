@@ -3,16 +3,10 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./events.css";
-import { Link, useHistory } from "react-router-dom";
 import EventHeader from "./eventHeader";
 import EventPageBody from "./eventPageBody";
 const Profile = () => {
   const [data, setData] = useState([]);
-  const [filterData, setFilterData] = useState([]);
-  const [eventStatus, setEventStatus] = useState("All Events");
-  const [userName, setUserName] = useState("");
-  //   const { userData, setUserData, setIsAuth } = useContext(State);
-  const history = useHistory();
   useEffect(async () => {
     await axios({
       method: "GET",
@@ -37,7 +31,7 @@ const Profile = () => {
         <EventHeader />
       </div>
       <div className="eventPageBody">
-        <EventPageBody events={data} />
+        <EventPageBody events={data} setData={setData} />
       </div>
     </div>
   );
