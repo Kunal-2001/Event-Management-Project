@@ -13,6 +13,8 @@ import Button from "@material-ui/core/Button";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import Rating from "@material-ui/lab/Rating";
 import Box from "@material-ui/core/Box";
+import PaymentIcon from "@material-ui/icons/Payment";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: red[500],
   },
   button: {
-    margin: theme.spacing(1),
+    fontWeight: "600",
   },
   list: {
     width: 600,
@@ -76,7 +78,67 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function loadScript(src) {
+  return new Promise((resolve) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+}
+
 export default function EventCard(props) {
+  async function payment() {
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
+    if (!res) {
+      alert("Something went wrong while loading razorpay script");
+      return;
+    }
+    let amount = props.rate * 100;
+    const { data } = await axios({
+      method: "POST",
+      data: { amount },
+      url: "http://localhost:5000/razorpay",
+    });
+    console.log(data);
+    var options = {
+      key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+      amount: data.amount.toString(),
+      currency: data.currency,
+      name: "Acme Corp",
+      description: "Test Transaction",
+      image: "http://localhost:5000/Logo2.png",
+      order_id: data.id,
+      handler: function (response) {
+        alert(response.razorpay_payment_id);
+        alert(response.razorpay_order_id);
+        alert(response.razorpay_signature);
+      },
+      prefill: {
+        name: "Gaurav Kumar",
+        email: "gaurav.kumar@example.com",
+        contact: "9999999999",
+      },
+    };
+    var paymentObjectRZP = new window.Razorpay(options);
+    paymentObjectRZP.on("payment.failed", function (response) {
+      alert(response.error.code);
+      alert(response.error.description);
+      alert(response.error.source);
+      alert(response.error.step);
+      alert(response.error.reason);
+      alert(response.error.metadata.order_id);
+      alert(response.error.metadata.payment_id);
+    });
+    paymentObjectRZP.open();
+  }
   const classes = useStyles();
   const [drawerState, setDrawerState] = useState(false);
   const [favourite, setFavourite] = useState(false);
@@ -96,12 +158,6 @@ export default function EventCard(props) {
         <div className={classes.infoPanel}>
           <h2>{props.name.toUpperCase()}</h2>
           <p>{props.genre} / English</p>
-          {/* <Typography>
-            <IconButton aria-label="add to favorites">
-              <EventIcon />
-            </IconButton>
-            Online Streaming
-          </Typography> */}
           <Typography
             style={{ marginTop: "15px", lineHeight: "25px" }}
             variant="body2"
@@ -144,7 +200,15 @@ export default function EventCard(props) {
             component="p"
             align="left"
           >
-            <span style={{ fontWeight: "600" }}>₹ {props.rate}</span> onwards
+            <Button
+              variant="contained"
+              color="secondary"
+              className={classes.button}
+              startIcon={<PaymentIcon />}
+              onClick={payment}
+            >
+              Pay ₹ {props.rate}
+            </Button>
           </Typography>
         </div>
         <div className={classes.mediaQuery}>
