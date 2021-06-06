@@ -54,6 +54,7 @@ const editEvent = async ({
   websiteLink,
   startDate,
   endDate,
+  userID,
 }) => {
   event
     .findByIdAndUpdate(eventId, {
@@ -68,6 +69,7 @@ const editEvent = async ({
       websiteLink,
       startDate,
       endDate,
+      userID,
     })
     .then((res) => {
       return true;

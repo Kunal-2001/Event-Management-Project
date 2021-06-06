@@ -171,19 +171,6 @@ router.post(
   "/thumbnailUpload",
   upload.single("thumbnailImage"),
   async (req, res, next) => {
-    // let {
-    // eventName,
-    // genre,
-    // eventDescription,
-    // organizer,
-    // cost,
-    // isOnline,
-    // venue,
-    // city,
-    // websiteLink,
-    // startDate,
-    // endDate,
-    // } = req.body.eventData;
     console.log(req.file);
     let thumbnailImageUrl = req.file.path;
     let thumbnailImageLocation = req.file.filename;
@@ -205,7 +192,6 @@ router.post(
 );
 
 router.post("/newevent", async (req, res, next) => {
-  // console.log(req.body);
   let {
     eventId,
     eventName,
@@ -220,7 +206,8 @@ router.post("/newevent", async (req, res, next) => {
     startDate,
     endDate,
   } = req.body.eventData;
-  console.log(eventId);
+  let { userID } = req.body;
+  console.log(userID);
   let response = await editEvent({
     eventId,
     eventName,
@@ -234,6 +221,7 @@ router.post("/newevent", async (req, res, next) => {
     websiteLink,
     startDate,
     endDate,
+    userID,
   });
   if (response) {
     res.json(true);
